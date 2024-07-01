@@ -280,6 +280,7 @@ class Throttle_Report:
         print("Drive_ThrottlePedalActual : ".ljust(30) + str(self.Drive_ThrottlePedalActual))
         print("---------------------")
     
+
     def toData(self):
         self.data = [0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]
 

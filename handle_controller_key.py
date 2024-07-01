@@ -34,30 +34,41 @@ while active:
         if e.type == QUIT:
             active = False
 
-        # for i in range(joystick.get_numbuttons()):
-        #     print(i, joystick.get_button(i))
-        # continue
-
         # ジョイスティックのボタンの入力
-        if e.type == pygame.locals.JOYAXISMOTION or e.type == 1539 or e.type == 1540:
+        if e.type == pygame.locals.KEYDOWN:
+        # if e.type == pygame.locals.JOYAXISMOTION:
             # print を入れると、CANの送信処理が正しく走らなくなるのでデバッグ時以外はprint を消す
             # print('十時キー:', joystick.get_axis(0), joystick.get_axis(1), joystick.get_axis(2), joystick.get_axis(3))
-            # continue
-
-            # ハンドルは軸0
-            handle = joystick.get_axis(0)
+            
+            # ハンドルは軸0ttyUSB3
+            # handle = joystick.get_axis(0)
+            keyname = pygame.key.name(e.key)
+            # print(keyname)
+            if keyname == "a":
+                handle = -0.5
+            elif keyname == "d":
+                handle = 0.5
+            else:
+                handle = 0
             
             # ブレーキペダルが軸3
             # 全く踏んでいない状態が 1 で、完全に踏むと 0 になる ので、それを
             # 全く踏んでいない状態 : 0 -> 完全に踏むと 1 に補正している。
             # break_pedal_raw = 1- joystick.get_axis(3)
-            break_pedal_raw = joystick.get_button(0) # B button
+            if keyname == "s":
+                break_pedal_raw = 1
+            else:
+                break_pedal_raw = 0
             
             # アクセルペダルが軸2
             # 全く踏んでいない状態が 1 で、完全に踏むと -1 になるので、それを
             # 全く踏んでいない状態 : 0 -> 完全に踏むと 1 に補正している。
             # accel_pedal = ((-1) * (joystick.get_axis(2)) + 1 ) / 2
-            accel_pedal = joystick.get_button(1) # A button
+            # brake_pedal = 0
+            if keyname == "w":
+                accel_pedal = 1
+            else:
+                accel_pedal = 0
             brake_pedal = 0
             
             # ブレーキペダルがごくわずかにしか踏まれていないときは、踏んでいない状態とするようにする
